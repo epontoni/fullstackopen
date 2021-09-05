@@ -8,8 +8,22 @@ const Button = (props) => {
     )
 }
 const Stadistics = ({good, neutral, bad}) => {
+    const totalComments = good + neutral + bad
+    const average = (good + neutral + bad) / 3
+    const positive =  good / (good + neutral + bad) * 100
+
+    if (totalComments == 0) {
+        return (
+            <>
+                <h2>Stadistics</h2>
+                <p>No feedback given</p>
+            </>
+        )
+    }
+    
     return (
         <>
+
             <h2>Stadistics</h2>
             <ul>
                 <li>Good: {good}</li>
@@ -18,9 +32,9 @@ const Stadistics = ({good, neutral, bad}) => {
             </ul>
             <h3>More stadistics</h3>
             <ul>
-            <li>Total comments: {good + neutral + bad}</li>
-                <li>Average: { (good + neutral + bad) / 3}</li>
-                <li>Positive: {good ? (good / (good + neutral + bad) * 100) : 0}%</li>
+            <li>Total comments: {totalComments}</li>
+                <li>Average: { average }</li>
+                <li>Positive: { positive ? positive : 0 }%</li>
             </ul>
         </>
     )
