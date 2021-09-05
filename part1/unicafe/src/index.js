@@ -7,14 +7,20 @@ const Button = (props) => {
         <button onClick={props.handleClick}>{props.title}</button>
     )
 }
-const Stadistics = (props) => {
+const Stadistics = ({good, neutral, bad}) => {
     return (
         <>
             <h2>Stadistics</h2>
             <ul>
-                <li>Good: {props.good}</li>
-                <li>Neutral: {props.neutral}</li>
-                <li>Bad: {props.bad}</li>
+                <li>Good: {good}</li>
+                <li>Neutral: {neutral}</li>
+                <li>Bad: {bad}</li>
+            </ul>
+            <h3>More stadistics</h3>
+            <ul>
+            <li>Total comments: {good + neutral + bad}</li>
+                <li>Average: { (good + neutral + bad) / 3}</li>
+                <li>Positive: {good ? (good / (good + neutral + bad) * 100) : 0}%</li>
             </ul>
         </>
     )
