@@ -10,7 +10,10 @@ const Button = (props) => {
 
 const Stadistic = ({text, value}) => {
     return (
-        <li>{text}: {value}</li>
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+          </tr>
     )
 }
 
@@ -32,17 +35,22 @@ const Stadistics = ({good, neutral, bad}) => {
         <>
 
             <h2>Stadistics</h2>
-            <ul>
-                <Stadistic text="Good" value={good} />
-                <Stadistic text="Bad" value={bad} />
-                <Stadistic text="Positive" value={positive} />
-            </ul>
-            <h3>More stadistics</h3>
-            <ul>
-                <Stadistic text="Total comments" value={totalComments} />
-                <Stadistic text="Average" value={average} />
-                <Stadistic text="Positive" value={positive + "%"} />
-            </ul>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Feedback</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <Stadistic text="Good" value={good} />
+                    <Stadistic text="Bad" value={bad} />
+                    <Stadistic text="Positive" value={positive} />
+                    <Stadistic text="Total comments" value={totalComments} />
+                    <Stadistic text="Average" value={average} />
+                    <Stadistic text="Positive" value={positive + "%"} />
+                </tbody>
+            </table>
         </>
     )
 }
