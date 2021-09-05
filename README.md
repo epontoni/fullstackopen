@@ -74,9 +74,75 @@ console.log(person); // { firstName: "Emanuel", lastName: "Pontoni" }
 console.log(global.firstName); // undefined
 console.log(global.lastName); // undefined
 ```
+### `this` en llamada de constructores
+En JavaScript, no hay funciones constructoras especiales. En cambio, la llamada a una función puede transformarse en la llamada a funa función constructora cuando la función es llamada con el operador `new` en frente de ella. Cuando una función es llamada como constructora, se crea un nuevo objeto y se configura su argumento `this`. Este objeto es luego retornado implicitamente por la función si no se especifica otro de manera explícita. No es un caso muy común retornar un objeto diferente en la función constructora, pero podría tener sentido en ciertos escenarios. Por ejemplo, en un entorno de desarrollo, podríamos envolver el objeto devuelto en un proxy y alertar a los desarrolladores siempre que utilicen ese objeto de forma incorrecta.
+Tenga en cuenta que si intentamos devolver algo más que un objeto, el motor de JavaScript simplemente ignorará el valor que proporcionamos y devolverá el objeto creado.
+
+```js
+function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  
+  return {
+    firstName: this.firstName,
+    lastName: this.lastName,
+    info: 'Not default object from constructor function'
+  }
+}
+const person = new Person("Emanuel", "Pontoni");
+```
+
 ### `this` en llamada de métodos
+Cuando se llama a una función como método de un objeto, el argumento `this` de esa función se establece en el objeto en el que se invoca el método. Ese objeto se llama *receptor de la llamadad de la función*.
+A menudo, el receptor se pierde cuando invocamos un método como función. Esto sucede particularmente a menudo cuando se pasa un método como devolución de llamada a otra función.
+
+```js
+var person = {
+  firstName: "Emanuel",
+  lastName: "Pontoni",
+  sayHi: function() {
+    console.log(`Hi ${this.firstName} ${this.lastName}!`);
+  }
+}
+
+person.sayHi() // el valor this dentro del método sayHi hace referencia al objeto persona.
+```
+Decimos que `person` es el receptor de la llamada de la función. Este mecanismo receptor no se ve afectado por el lugar donde se definió la función. Por ejemplo, podríamos haber definido la función por separado y luego haberla adjuntado a `person`. Aún escribimos `person.sayHi()`, y por lo tanto `person` seguirá siendo el receptor de la llamada al método.
+```js
+var person = {
+  firstName: "Emanuel",
+  lastName: "Pontoni",
+  sayHi: sayHi
+}
+
+function sayHi () {
+  console.log(`Hi ${this.firstName} ${this.lastName}!`);
+}
+
+person.sayHi() // el valor this dentro del método sayHi hace referencia al objeto persona.
+```
+
+
 ### Especificando usando `.call()` o `.apply()`
-### Vinculando el valor `this` de una función con el método `.bind()`
+El método `.call()` es lo mismo que el método `.bind()`, crear una copia de la función con el `this` especificado y la ejecuta (no devuelve una nueva función). También bindea argumentos.
+El método `.apply()` es lo mismo que el método `.call()`, solo que el segundo argumento es un arreglo.
+Ejemplos:
+```js
+var person = {
+  name: "Emanuel",
+  lastname: "Pontoni",
+};
+
+var logName = function(arg1, arg2) {
+  console.log(arg1 + ' ' this.name + ' ' + arg2);
+}
+
+logName('Hola', ', cómo estas?') // Hola undefined , cómo estas?
+logName.call(person, 'Hola', ', cómo estas?') // Hola Emanuel , cómo estas?
+logName.apply(person, ['Hola', ', cómo estas?']); // Hola Emanuel , cómo estas?
+
+```
+### Vinculando el valor `this` de una función con el método `.bind()` 
 ```js
 var name = "Emanuel";
 
@@ -93,6 +159,14 @@ logName() // "Emanuel"
 
 logPersonName = logName.bind(person); // El primer parámetro de bind es el this. Retorna una nueva función con el this especificadoci
 logPersonName(); // "Manuel"
+```
+Bind acepta más parámetros, el primero siempre es `this`, los siguientes sirven para bindear parámetros de una función (esto se conoce como *function currying*).
+```js
+function multiplicar(a, b) {
+  return a*b
+}
+var multiplicarPorDos = multiplica.bind(this, 2);
+// El Bind le 'bideó' el 2 al argumento 'a' y devolvió una función nueva con ese parámetro bindeado.
 ```
 ### Capturando `this` con una función flecha.
 ### `this` en el cuerpo de una clase.
