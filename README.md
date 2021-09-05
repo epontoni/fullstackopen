@@ -77,6 +77,23 @@ console.log(global.lastName); // undefined
 ### `this` en llamada de métodos
 ### Especificando usando `.call()` o `.apply()`
 ### Vinculando el valor `this` de una función con el método `.bind()`
+```js
+var name = "Emanuel";
+
+var person = {
+  name: "Manuel",
+  lastname: "Await",
+};
+
+var logName = function() {
+  console.log(this.name);
+}
+
+logName() // "Emanuel"
+
+logPersonName = logName.bind(person); // El primer parámetro de bind es el this. Retorna una nueva función con el this especificadoci
+logPersonName(); // "Manuel"
+```
 ### Capturando `this` con una función flecha.
 ### `this` en el cuerpo de una clase.
 Fuentes:
