@@ -11,30 +11,63 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+const Anecdote = (props) => {
+    return (
+        <>
+            <blockquote>{props.anecdote}</blockquote>
+            <p>{props.votes}</p>
+        </>
+    )
+}
+
 const App = (props) => {
     const [selected, setSelected] = useState(0)
     const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
-
+    const [mostVoted, setMostVoted] = useState(0)
+    
     
     function randomAnecdote() {
         var randomNumber =  Math.floor(Math.random()* (props.anecdotes.length))
         setSelected(randomNumber)
     }
-
+    
     function votar(){
-        const copy = { ...votes }
+        // Create a copy of votes..
+        const copy = [...votes]
         copy[selected] += 1
-        
+
+        // Update the most popular
+        let mostPopular = 0
+        let n = 0
+
+        for (let i = 0; i<copy.length; i++) {
+            if (copy[i] > mostPopular) {
+                mostPopular = copy[i]
+                n = i
+            }
+        }
+
+        // Update the states
         setVotes(copy)
+        setMostVoted(n)
+        
     }
-  
+    
     return (
       <div>
-        <blockquote>{props.anecdotes[selected]}</blockquote>
-        <p>has {votes[selected]<=1 ? votes[selected] + ' vote' : votes[selected] + ' votes'}</p>
+        <h2>Anecdote of the day</h2>
+        <Anecdote
+            anecdote={ props.anecdotes[selected] }
+            votes={ votes[selected] }
+        />
         <br />
-        <button onClick={ () => votar()}>vote</button>
+        <button onClick={ () => votar() }>vote</button>
         <button onClick={ () => randomAnecdote() }>next anecdote</button>
+        <h2>Anecdote with most votes</h2>
+        <Anecdote
+            anecdote={ props.anecdotes[mostVoted] }
+            votes={ votes[mostVoted] }
+        />
       </div>
     )
   }
