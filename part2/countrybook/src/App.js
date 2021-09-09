@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import CountryView from './components/CountryView'
 
 const App = () => {
     const [query, setQuery] = useState('')
     const [countries, setCountries] = useState([])
+    const [country, setCountry] = useState([])
 
     const handleSearchInput = (event) => {
         setQuery(event.target.value)
@@ -13,37 +15,38 @@ const App = () => {
         .catch( err => console.log('Algo salió mal...', err))
     }
 
-    /* const handleSearch = (event) => {
-        event.preventDefault()
-        axios
-            .get(`https://restcountries.eu/rest/v2/name/${query}`)
-            .then( response => setCountries(response.data))
-    } */
+    const showCountry = (code) => {
+        return function () {
+            const selectedCountry = countries.filter(country => country.numericCode === code)
+            setCountry(selectedCountry)
+        }
+    }
 
   return (
     <>
         <form>
             <label>Find countries: </label>
-            <input value={query} onChange={handleSearchInput}></input>
+            <input
+                value={query}
+                onChange={handleSearchInput}>
+            </input>
         </form>
         <div>
             { countries.length > 10
                 ? "Too many matches, specify another filter"
                 : countries.length === 1
-                    ? (
-                        <>
-                            <h2>{ countries[0].name }</h2>
-                            <p>Capital: { countries[0].capital }</p>
-                            <p>Population: { countries[0].population }</p>
-                            <h3>Languages</h3>
-                            <ul>
-                                { countries[0].languages.map( lang => <li key={lang.name}> {lang.name} </li>) }
-                            </ul>
-                            <img src={ countries[0].flag } alt={countries[0].name + 'Flag'} />
-                        </>
+                    ? ( 
+                        <CountryView country={countries[0]} />
                     )
-                    : countries.map( (country) =>  <p key={country.name}>{country.name}</p> ) }
+                    : countries.map( (country) =>  <p key={country.name}>{country.name} | { country.numericCode } <button onClick={showCountry(country.numericCode)}>show</button></p> ) }
         </div>
+        <div>
+            { (country.length === 1 && countries.length > 1)
+                ? <CountryView country={country[0]} />
+                : ''
+            }
+        </div>
+        
     </>
   );
 }
