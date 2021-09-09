@@ -42,7 +42,7 @@ const App = () => {
                             <img src={ countries[0].flag } alt={countries[0].name + 'Flag'} />
                         </>
                     )
-                    : countries.map( (countrie) =>  <p key={countrie.name}>{countrie.name}</p> ) }
+                    : countries.map( (country) =>  <p key={country.name}>{country.name}</p> ) }
         </div>
     </>
   );
