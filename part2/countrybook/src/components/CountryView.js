@@ -1,4 +1,5 @@
 import React from "react"
+import Weather from "./Weather"
 
 const CountryView = ({country}) => {
         return (
@@ -11,6 +12,8 @@ const CountryView = ({country}) => {
                     { country.languages.map( lang => <li key={lang.name}> {lang.name} </li>) }
                 </ul>
                 <img src={ country.flag } alt={country.name + 'Flag'} />
+                <h3>Weather in { country.name }</h3>
+                <Weather query={country.name} />
             </>
         )
 }

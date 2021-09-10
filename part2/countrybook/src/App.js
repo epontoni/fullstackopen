@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import CountryView from './components/CountryView'
+// ($env:REACT_APP_API_KEY='t0p53cr3t4p1k3yv4lu3') -and (yarn start) // For Windows PowerShell
+const API_KEY = process.env.REACT_APP_API_KEY
 
 const App = () => {
     const [query, setQuery] = useState('')
