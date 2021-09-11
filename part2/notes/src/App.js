@@ -16,7 +16,7 @@ const App = () => {
     const [notes, setNotes] = useState([])
     const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState({message: '', type: 'success'})
 
     const hook = () => {
         noteService
@@ -48,10 +48,16 @@ const App = () => {
             .then( returnedNote => {
                 setNotes(notes.concat(returnedNote))
                 setNewNote('')
-                setErrorMessage('Nota creada con éxito!')
+                setErrorMessage({
+                    message: 'Nota creada con éxito!',
+                    type: 'success'
+                })
             })
             .catch( error => {
-                setErrorMessage('Algo salió mal al crear la nota!')
+                setErrorMessage({
+                    message: 'Algo salió mal al crear la nota!',
+                    type: 'error'
+                })
             })
         // console.log('button submit clicked', event.target)
     }
@@ -66,7 +72,10 @@ const App = () => {
                 setNotes(notes.map(note => note.id !== id ? note : returnedNote))
             })
             .catch(error => {
-                setErrorMessage('the note was already deleted from server!')
+                setErrorMessage({
+                    message: 'La nota ya ha sido borrada del servidor.',
+                    type: 'error'
+                })
                 setNotes(notes.filter(n => n.id !== id))
             })
     } 
@@ -77,7 +86,7 @@ const App = () => {
     return (
         <div>
             <h1>Notes</h1>
-            <Notification message={errorMessage} />
+            <Notification message={errorMessage.message} type={errorMessage.type}/>
             <button onClick={ () => setShowAll(!showAll) }>
                 show { showAll ? 'important' : 'all' }
             </button>
