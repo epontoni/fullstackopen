@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import personsService from '../services/persons'
 
 const PersonForm = ({ persons, setPersons }) => {
 
@@ -15,17 +16,61 @@ const PersonForm = ({ persons, setPersons }) => {
 
         const addContact = (event) => {
             event.preventDefault()
-            const personObject = {
-                id: persons.length + 1,
-                name: newName,
-                number: newNumber
-            }
-            if (persons.find( (person) => person.name.toLowerCase() === newName.toLowerCase())){
-                alert(`${newName} is already added to phonebook`)
+
+            const found = persons.find(
+                person => person.name.toLowerCase() === newName.toLowerCase()
+            )
+
+            console.log('object found: ', found);
+            console.log(found ? 'true' : 'false')
+
+            // ¿Existe?
+            if(found) {
+                // ¿Desea editar?
+                if(window.confirm(`${newName} is already to phonebook, replace the old number with a new one?`)){
+                    const editedContact = {...found, number: newNumber}
+                    personsService
+                        .update(found.id, editedContact)
+                        .then( returnedContact => {
+                            console.log('returned contact: ', returnedContact)
+                            const newContacts = persons.map( contact => {
+                                if(contact.id === found.id) {
+                                    return returnedContact
+                                }
+                                return contact
+                            })
+                            console.log('Nuevo estado PERSONAS: ', newContacts)
+
+                            setPersons(newContacts)
+                            setNewName('')
+                            setNewNumber('')
+                        })
+                        .catch( error => {
+                            console.log(` algo salió mal al intentar editar el contacto`)
+                        })
+
+                } else {
+                    return;
+                }
             } else {
-                setPersons(persons.concat(personObject))
-                setNewName('')
-                setNewNumber('')
+                // No existe, entonces lo creamos:
+                const personObject = {
+                    id: persons.length + 1,
+                    name: newName,
+                    number: newNumber
+                }
+
+                personsService
+                    .create(personObject)
+                    .then( returnedContact => {
+                        console.log('returned contact: ', returnedContact)
+                        setPersons(persons.concat(returnedContact))
+                        setNewName('')
+                        setNewNumber('')
+                    })
+                    .catch( error => {
+                        console.log(` algo salió mal al crear el contacto`)
+                    })
             }
         }
 
