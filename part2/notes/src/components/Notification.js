@@ -1,11 +1,15 @@
 import React from "react";
 import '../index.css'
 
-const Notification = (props) => {
+const Notification = ({message}) => {
+    if (message === null) {
+        return null
+    }
+
     return (
-        props.show
-            ? (<div className="notification active">{props.text}</div>)
-            : (<div className="notification">{props.text}</div>)
+        <div className="error">
+            {message}
+        </div>
     )
 }
 

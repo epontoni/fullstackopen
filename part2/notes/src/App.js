@@ -3,6 +3,7 @@ import Note from './components/Note'
 import noteService from './services/notes'
 import './index.css'
 import Notification from "./components/Notification"
+import Footer from './components/Footer'
 
 /* axios
 .get('http://localhost:3001/notes')
@@ -15,7 +16,7 @@ const App = () => {
     const [notes, setNotes] = useState([])
     const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(false)
-    const [notification, setNotification] = useState({show: false, text: ''})
+    const [errorMessage, setErrorMessage] = useState('')
 
     const hook = () => {
         noteService
@@ -26,19 +27,6 @@ const App = () => {
     }
 
     useEffect(hook, [])
-
-    // Notification
-    const noti = () => {
-        if(notification.show === true){
-            var alerta = setTimeout(()=> {
-                setNotification({...notification, show: false, text: ''})
-                window.clearTimeout(alerta)
-            }, 3000)
-
-        }
-    }
-
-    useEffect(noti, [notification])
     
     console.log('render', notes.length, 'notes')
 
@@ -60,10 +48,10 @@ const App = () => {
             .then( returnedNote => {
                 setNotes(notes.concat(returnedNote))
                 setNewNote('')
-                setNotification({...notification, show: true, text: 'Nota creada con éxito!'})
+                setErrorMessage('Nota creada con éxito!')
             })
             .catch( error => {
-                setNotification({...notification, show: true, text: 'Algo salió mal!'})
+                setErrorMessage('Algo salió mal al crear la nota!')
             })
         // console.log('button submit clicked', event.target)
     }
@@ -78,7 +66,7 @@ const App = () => {
                 setNotes(notes.map(note => note.id !== id ? note : returnedNote))
             })
             .catch(error => {
-                setNotification({...notification, show: true, text: 'the note was already deleted from server'})
+                setErrorMessage('the note was already deleted from server!')
                 setNotes(notes.filter(n => n.id !== id))
             })
     } 
@@ -89,6 +77,7 @@ const App = () => {
     return (
         <div>
             <h1>Notes</h1>
+            <Notification message={errorMessage} />
             <button onClick={ () => setShowAll(!showAll) }>
                 show { showAll ? 'important' : 'all' }
             </button>
@@ -114,11 +103,7 @@ const App = () => {
                 <button type="submit">save</button>
             </form>
 
-            {
-                notification
-                    ? (<Notification show={notification.show} text={notification.text} />)
-                    : ''
-            }
+            <Footer />
         </div>
     );
 }
