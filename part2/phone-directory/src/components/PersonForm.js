@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import personsService from '../services/persons'
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, setMessage }) => {
 
         const [ newName, setNewName ] = useState('')
         const [ newNumber, setNewNumber ] = useState('')
@@ -39,6 +39,7 @@ const PersonForm = ({ persons, setPersons }) => {
                                 }
                                 return contact
                             })
+                            setMessage('Contacto editado correctamente')
                             console.log('Nuevo estado PERSONAS: ', newContacts)
 
                             setPersons(newContacts)
@@ -46,6 +47,7 @@ const PersonForm = ({ persons, setPersons }) => {
                             setNewNumber('')
                         })
                         .catch( error => {
+                            setMessage('Algo salió mal al intentar editar el contacto')
                             console.log(` algo salió mal al intentar editar el contacto`)
                         })
 
@@ -55,21 +57,25 @@ const PersonForm = ({ persons, setPersons }) => {
             } else {
                 // No existe, entonces lo creamos:
                 const personObject = {
-                    id: persons.length + 1,
+                    id: persons[persons.length-1].id + 1,
                     name: newName,
                     number: newNumber
                 }
+                console.log('Intentaremos crear contacto:', personObject)
 
                 personsService
                     .create(personObject)
                     .then( returnedContact => {
+                        console.log('Resolviendo promesa de creación de usuario.')
                         console.log('returned contact: ', returnedContact)
                         setPersons(persons.concat(returnedContact))
                         setNewName('')
                         setNewNumber('')
+                        setMessage('Contacto creado correctamente')
                     })
                     .catch( error => {
-                        console.log(` algo salió mal al crear el contacto`)
+                        setMessage('Algo salió mal crear el contacto')
+                        console.log(`algo salió mal al crear el contacto`)
                     })
             }
         }

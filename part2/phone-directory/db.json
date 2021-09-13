@@ -8,7 +8,7 @@
     {
       "id": 2,
       "name": "Emanuel Pontoni",
-      "number": "(3537) 599073"
+      "number": "3537599073"
     },
     {
       "id": 3,
@@ -21,9 +21,29 @@
       "number": "80800 555 900"
     },
     {
-      "id": 5,
+      "id": 6,
+      "name": "contact 3",
+      "number": "333 333 333"
+    },
+    {
+      "id": 8,
+      "name": "Fulano",
+      "number": "8888777799++"
+    },
+    {
+      "id": 7,
       "name": "test",
-      "number": "321"
+      "number": "33333"
+    },
+    {
+      "id": 9,
+      "name": "asd",
+      "number": "asd"
+    },
+    {
+      "id": 10,
+      "name": "asddasdasd",
+      "number": "ddddd"
     }
   ]
 }

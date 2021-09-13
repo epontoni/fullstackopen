@@ -12,3 +12,52 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.success {
+    border: 2px solid green;
+    border-radius: .25rem;
+    padding: .5rem;
+    background-color: greenyellow;
+    color: darkgreen;
+    visibility: hidden;
+    height: 0;
+    opacity: 0;
+    animation: show-in 3s, show-out 3s 3s;
+}
+.error {
+    border: 2px solid red;
+    border-radius: .25rem;
+    padding: .5rem;
+    background-color: tomato;
+    color: red;
+    visibility: hidden;
+    height: 0;
+    opacity: 0;
+    animation: show-in 3s, show-out 3s 3s;
+}
+
+@keyframes show-in {
+    from {
+        visibility: hidden;
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        height: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes show-out {
+    from {
+        visibility: visible;
+        height: 100%;
+        opacity: 1;
+    }
+    to {
+        visibility: hidden;
+        height: 0;
+        opacity: 0;
+    }
+}
