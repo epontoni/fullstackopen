@@ -16,7 +16,13 @@ const App = () => {
     const [notes, setNotes] = useState([])
     const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(false)
-    const [errorMessage, setErrorMessage] = useState({message: '', type: 'success'})
+    const [errorMessage, setErrorMessage] = useState(null)
+
+    useEffect(() => {
+        setTimeout( () => {
+            setErrorMessage(null)
+        }, 3000)
+    }, [errorMessage])
 
     const hook = () => {
         noteService
@@ -48,16 +54,10 @@ const App = () => {
             .then( returnedNote => {
                 setNotes(notes.concat(returnedNote))
                 setNewNote('')
-                setErrorMessage({
-                    message: 'Nota creada con éxito!',
-                    type: 'success'
-                })
+                setErrorMessage('Nota creada con éxito!')
             })
             .catch( error => {
-                setErrorMessage({
-                    message: 'Algo salió mal al crear la nota!',
-                    type: 'error'
-                })
+                setErrorMessage('Algo salió mal al crear la nota!')
             })
         // console.log('button submit clicked', event.target)
     }
@@ -70,12 +70,10 @@ const App = () => {
             .update(id, changedNote)
             .then(returnedNote => {
                 setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+                setErrorMessage('Se ha cambiado la importancia de la nota.')
             })
             .catch(error => {
-                setErrorMessage({
-                    message: 'La nota ya ha sido borrada del servidor.',
-                    type: 'error'
-                })
+                setErrorMessage('La nota ya ha sido borrada del servidor.')
                 setNotes(notes.filter(n => n.id !== id))
             })
     } 
@@ -86,7 +84,7 @@ const App = () => {
     return (
         <div>
             <h1>Notes</h1>
-            <Notification message={errorMessage.message} type={errorMessage.type}/>
+            <Notification message={errorMessage} />
             <button onClick={ () => setShowAll(!showAll) }>
                 show { showAll ? 'important' : 'all' }
             </button>

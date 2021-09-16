@@ -4,7 +4,7 @@
       "id": 1,
       "content": "HTML is easy",
       "date": "2019-05-30T17:30:31.098Z",
-      "important": false
+      "important": true
     },
     {
       "id": 2,
@@ -21,7 +21,7 @@
     {
       "content": "My new note",
       "date": "2021-09-10T22:29:39.025Z",
-      "important": true,
+      "important": false,
       "id": 4
     },
     {
@@ -33,13 +33,13 @@
     {
       "content": "Nueva nota!",
       "date": "2021-09-11T13:04:59.693Z",
-      "important": false,
+      "important": true,
       "id": 6
     },
     {
       "content": "newnote!",
       "date": "2021-09-11T13:05:45.556Z",
-      "important": false,
+      "important": true,
       "id": 7
     },
     {
@@ -51,7 +51,7 @@
     {
       "content": "asd",
       "date": "2021-09-11T13:12:33.516Z",
-      "important": true,
+      "important": false,
       "id": 9
     },
     {
@@ -75,7 +75,7 @@
     {
       "content": "asd",
       "date": "2021-09-11T13:13:59.420Z",
-      "important": false,
+      "important": true,
       "id": 13
     },
     {
@@ -105,7 +105,7 @@
     {
       "content": "",
       "date": "2021-09-11T13:52:53.114Z",
-      "important": true,
+      "important": false,
       "id": 18
     },
     {
@@ -159,7 +159,7 @@
     {
       "content": "asdasd",
       "date": "2021-09-11T13:57:47.971Z",
-      "important": true,
+      "important": false,
       "id": 27
     },
     {
@@ -459,7 +459,7 @@
     {
       "content": "asd",
       "date": "2021-09-11T19:11:36.895Z",
-      "important": true,
+      "important": false,
       "id": 77
     },
     {
@@ -659,6 +659,18 @@
       "date": "2021-09-11T20:17:15.265Z",
       "important": true,
       "id": 110
+    },
+    {
+      "content": "asdasd",
+      "date": "2021-09-16T17:35:21.740Z",
+      "important": true,
+      "id": 111
+    },
+    {
+      "content": "aasdasd",
+      "date": "2021-09-16T18:39:06.684Z",
+      "important": false,
+      "id": 112
     }
   ]
 }
