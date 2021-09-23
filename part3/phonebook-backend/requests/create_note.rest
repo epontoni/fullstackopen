@@ -1,0 +1,21 @@
+OST http://localhost:3001/api/persons content-type: application/json
+
+{
+"name": "Nuevo persona", "number": "123456"
+}
+
+###
+
+POST http://localhost:3001/api/persons content-type: application/json
+
+{
+"name": "Nuevo persona", "number": "123456"
+}
+
+###
+
+POST http://localhost:3001/api/persons content-type: application/json
+
+{
+"name": "Nuevo persona"
+}
