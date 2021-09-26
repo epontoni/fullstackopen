@@ -1,7 +1,30 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 app.use(express.json())
+
+
+
+// Middleware: Los middleware son funciones que se pueden utilizar para manejar objetos de request y response.
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+  }
+  
+app.use(requestLogger)
+
+// Morgan middleware
+morgan.token('POSTdata', function(req, res){
+    return JSON.stringify(req.body)
+})
+
+var mmw = morgan(":method :url :status - :response-time ms :POSTdata")
+
+app.use(mmw)
 
 let persons = [
     {
@@ -56,7 +79,7 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/', (request, response) => {
-    response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`)
+    response.send(`<h1>Hola mundo!</h1><a href="/info">ver info</a>`)
 })
 
 app.get('/api/persons', (request, response) => {
@@ -117,7 +140,13 @@ app.post('/api/persons', (request, response) => {
     persons = persons.concat(person)
   
     response.json(person)
-  })
+})
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
